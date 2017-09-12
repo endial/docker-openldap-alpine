@@ -1,0 +1,16 @@
+# base distingushed name
+BASE            dc=example,dc=com
+
+# ssl localhost location (port 636)
+URI             ldaps://localhost
+
+# certificate location, default directory: /srv/cert
+# never: default vaule, do not check the certificate file of the SERVER
+# allow: check the certificate file, allow connect even the certificate not exsist or error
+# try: check the certificat file, allow connect if file not exsist, not allow connect if file error
+# demand: check the certificate file, not allow connect if file not exsist or file error
+
+TLS_CACERT      /srv/cert/ca.pem
+TLS_CERT        /srv/cert/public.crt
+TLS_KEY         /srv/cert/public.key
+TLS_REQCERT     demand
