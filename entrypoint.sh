@@ -47,7 +47,7 @@ if [ ! -f /srv/conf/openldap/inited ]; then
 
   # encrypt root password before replacing
   if [ -z "$ROOT_PW" ]; then
-    ROOT_PW=`pwgen 16 1`
+    ROOT_PW=`pwgen -c -n -y -s 64 1`
     touch /srv/conf/openldap/password
     echo "[i] Save root password to /srv/conf/openldap/password"
     echo "Root Password: $ROOT_PW" > /srv/conf/openldap/password
@@ -67,7 +67,7 @@ if [ ! -f /srv/conf/openldap/inited ]; then
   sed -i "s~%USER_GIVEN_NAME%~$USER_GIVEN_NAME~g" "$USER_CONF"
   sed -i "s~%USER_SURNAME%~$USER_SURNAME~g" "$USER_CONF"
   if [ -z "$USER_PW" ]; then
-    USER_PW=`pwgen 16 1`
+    USER_PW=`pwgen -c -n -y -s 32 1`
     touch /srv/conf/openldap/password
     echo "[i] Save user password to /srv/conf/openldap/password"
     echo "User UID: $USER_UID" >> /srv/conf/openldap/password
