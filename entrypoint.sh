@@ -70,7 +70,8 @@ if [ ! -f /srv/conf/openldap/inited ]; then
     USER_PW=`pwgen 16 1`
     touch /srv/conf/openldap/password
     echo "[i] Save user password to /srv/conf/openldap/password"
-    echo "Root Password: $USER_PW" >> /srv/conf/openldap/password
+    echo "User UID: $USER_UID" >> /srv/conf/openldap/password
+    echo "User Password: $USER_PW" >> /srv/conf/openldap/password
   fi
   sed -i "s~%USER_PW%~$USER_PW~g" "$USER_CONF"
   sed -i "s~%USER_EMAIL%~$USER_EMAIL~g" "$USER_CONF"

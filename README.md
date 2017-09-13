@@ -4,7 +4,6 @@
 
 
 ## 基本信息
-
 * 镜像地址：endial/openldap-alpine
 * 依赖镜像：endial/base-alpine:v3.6
 
@@ -12,7 +11,6 @@
 
 
 ## 数据卷
-
 ```
 /srv/conf: 用于存放用户的配置文件
 /srv/data: 用于存放LDAP数据文件
@@ -22,11 +20,8 @@
 
 ## 使用说明
 
-
 ### LDAP 基本操作
-
 可以使用以下命令搜索LDAP：
-
 ```
 cp .ldaprc ~
 ldapsearch -x -D "cn=admin,dc=example,dc=com" -w password -b "dc=example,dc=com"
@@ -37,7 +32,6 @@ ldapsearch -x -D "cn=admin,dc=example,dc=com" -w password -b "dc=example,dc=com"
 
 
 ## 运行参数
-
 Override the following environment variables when running the docker container to customise LDAP:
 
 | VARIABLE          | DESCRIPTION                     | DEFAULT                                  |
@@ -52,12 +46,29 @@ Override the following environment variables when running the docker container t
 | USER_EMAIL        | Initial user's email            | manager@example.com                      |
 | USER_PW           | Initial user's password         | password                                 |
 
-For example:
-
+准备数据卷容器（默认定义了`/srv/cert`）：
 ```
 docker run --rm --name dvc -d -it \
   endial/dvc-alpine
+```
 
+准备证书，如果已经有证书可以不需要:
+```
+docker run --rm --volumes-from dvc -d \
+  endial/openssl-alpine
+```
+
+将相应的证书拷贝至LDAP证书目录（或创建连接）：
+```
+rm -rf /srv/cert/openldap/*
+ln -sf /srv/cert/selfcert/letsencrypt/cert.pem /srv/cert/openldap/
+ln -sf /srv/cert/selfcert/letsencrypt/chain.pem /srv/cert/openldap/
+ln -sf /srv/cert/selfcert/letsencrypt/fullchain.pem /srv/cert/openldap/
+ln -sf /srv/cert/selfcert/letsencrypt/private.pem /srv/cert/openldap/
+```
+
+运行LDAP容器：
+```
 docker run --volumes-from dvc \
   -p 636:636 \
   -p 389:389 \
@@ -66,28 +77,4 @@ docker run --volumes-from dvc \
   -e ROOT_PW="geheimnis" \
   endial/openldap-alpine
 ```
-
-
-
-## 增加 ldif 文件
-
-Copy ldif scripts to /ldif and the container will execute them. This can be done either by extending this Dockerfile with your own:
-
-```
-FROM endial/openldap-alpine
-COPY my-users.ldif /ldif/
-```
-
-Or by mounting your scripts directory into the container:
-
-```
-docker run -v /certs:/etc/ssl/certs \
-  pgarrett/openssl-alpine
-
-docker run -v /certs:/etc/ssl/certs \
-  -p 636:636 \
-  -v /my-ldif:/ldif \
-  pgarrett/ldap-alpine
-```
-
 
