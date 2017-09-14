@@ -22,14 +22,24 @@ if [ "$RETRY" -eq "$MAX_RETRIES" ]; then
   echo "[i] Start ldap without SSL ..."
 fi
 
-if [ ! -d /srv/data/openldap ]; then
-  mkdir -p /srv/data/openldap
+if [ ! -d /srv/data/openldap/openldap-data ]; then
+  mkdir -p /srv/data/openldap/openldap-data
+  chown ldap:ldap /srv/data/openldap/openldap-data
 fi
 
 if [ ! -d /srv/conf/openldap ]; then
   mkdir -p /srv/conf/openldap
+fi
+
+if [ ! -f /srv/conf/openldap/slapd.conf ]; then
   cp -rf /etc/openldap/slapd.conf /srv/conf/openldap/
+fi
+
+if [ ! -f /srv/conf/openldap/orgnization.ldif ]; then
   cp -rf /etc/openldap/orgnization.ldif /srv/conf/openldap/
+fi
+
+if [ ! -f /srv/conf/openldap/users.ldif ]; then
   cp -rf /etc/openldap/users.ldif /srv/conf/openldap/
 fi
 

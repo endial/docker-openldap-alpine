@@ -23,8 +23,8 @@ ENV USER_EMAIL "manager@example.com"
 
 # transport layer security configuration
 ENV CA_FILE "/srv/cert/openldap/fullchain.pem"
-ENV CERT_KEY "/srv/cert/openldap/cert.pem"
-ENV CERT_FILE "/srv/cert/openldap/privkey.pem"
+ENV CERT_KEY "/srv/cert/openldap/privkey.pem"
+ENV CERT_FILE "/srv/cert/openldap/cert.pem"
 
 # copy modules schemas
 COPY schema/* /etc/openldap/schema/
