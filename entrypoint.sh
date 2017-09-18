@@ -22,13 +22,16 @@ if [ "$RETRY" -eq "$MAX_RETRIES" ]; then
   echo "[i] Start ldap without SSL ..."
 fi
 
-if [ ! -d /srv/data/openldap/openldap-data ]; then
-  mkdir -p /srv/data/openldap/openldap-data
-  chown ldap:ldap /srv/data/openldap/openldap-data
+if [ ! -d /srv/data/openldap ]; then
+  mkdir -p /srv/data/openldap
 fi
 
 if [ ! -d /srv/conf/openldap ]; then
   mkdir -p /srv/conf/openldap
+fi
+
+if [ ! -d /var/run/openldap ]; then
+  mkdir -p /var/run/openldap
 fi
 
 if [ ! -f /srv/conf/openldap/slapd.conf ]; then
@@ -116,7 +119,7 @@ fi
 # start ldap, move to CMD in Dockfile
 # -f: config file name
 # -F: config path
-slapd -d stats -u ldap -f /srv/conf/openldap/slapd.conf -g ldap -h "ldap:/// ldaps:///"
+slapd -d stats -u root -f /srv/conf/openldap/slapd.conf -g root -h "ldap:/// ldaps:///"
 
 # run command passed to docker run
 exec "$@"
