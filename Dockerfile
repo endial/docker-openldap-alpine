@@ -6,6 +6,7 @@ ENV OPENLDAP_VERSION 2.4.44-r0
 
 RUN  apk update \
   && apk add openldap pwgen \
+  && mkdir -p /etc/openldap/schema \
   && rm -rf /var/cache/apk/*
 
 # organisation config
