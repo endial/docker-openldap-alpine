@@ -108,6 +108,10 @@ if [ ! -f /srv/conf/openldap/inited ]; then
 
   sed -i "s~%BIND_PW%~$BIND_PW~g" "$USER_CONF"
 
+  cp -rf /etc/openldap/slapd.conf /srv/conf/openldap/
+  cp -rf /etc/openldap/orgnization.ldif /srv/conf/openldap/
+  cp -rf /etc/openldap/users.ldif /srv/conf/openldap/
+
   # add organisation and users to ldap (order is important)
   slapadd -l "$ORG_CONF"
   slapadd -l "$USER_CONF"
