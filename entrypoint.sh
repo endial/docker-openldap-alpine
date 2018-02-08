@@ -67,7 +67,7 @@ if [ ! -f /srv/conf/openldap/inited ]; then
 
   touch /srv/conf/openldap/password
   echo "[i] Save root password to /srv/conf/openldap/password"
-  echo "Root DN: $ROOT_USER,$SUFFIX" >> /srv/conf/openldap/password
+  echo "Root DN: cn=$ROOT_USER,$SUFFIX" >> /srv/conf/openldap/password
   echo "Root Password: $ROOT_PW" >> /srv/conf/openldap/password
 
   # encrypt root password before replacing
