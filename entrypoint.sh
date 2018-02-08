@@ -94,7 +94,7 @@ if [ ! -f /srv/conf/openldap/inited ]; then
     USER_PW=`pwgen -c -n -y -s 32 1`
   fi
   echo "[i] Save user password to /srv/conf/openldap/password"
-  echo "User DN: uid=%USER_UID%,ou=Manager,%SUFFIX%" >> /srv/conf/openldap/password
+  echo "User DN: uid=$USER_UID,ou=Manager,$SUFFIX" >> /srv/conf/openldap/password
   echo "User Password: $USER_PW" >> /srv/conf/openldap/password
 
   sed -i "s~%USER_PW%~$USER_PW~g" "$USER_CONF"
@@ -103,7 +103,7 @@ if [ ! -f /srv/conf/openldap/inited ]; then
     BIND_PW=`pwgen -c -n -y -s 32 1`
   fi
   echo "[i] Save bind password to /srv/conf/openldap/password"
-  echo "BIND DN: uid=%BIND_UID%,ou=Manager,%SUFFIX%" >> /srv/conf/openldap/password
+  echo "BIND DN: uid=$BIND_UID,ou=Manager,$SUFFIX" >> /srv/conf/openldap/password
   echo "BIND Password: $BIND_PW" >> /srv/conf/openldap/password
 
   sed -i "s~%BIND_PW%~$BIND_PW~g" "$USER_CONF"
