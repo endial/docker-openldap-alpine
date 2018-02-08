@@ -6,3 +6,9 @@ uid: %USER_UID%
 userpassword: %USER_PW%
 mail: %USER_EMAIL%
 
+dn: uid=%BIND_UID%,ou=Manager,%SUFFIX%
+objectclass: inetOrgPerson
+cn: %BIND_GIVEN_NAME% %BIND_SURNAME%
+sn: %BIND_SURNAME%
+uid: %BIND_UID%
+userpassword: %BIND_PW%

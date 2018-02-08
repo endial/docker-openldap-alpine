@@ -57,14 +57,20 @@ if [ ! -f /srv/conf/openldap/inited ]; then
   sed -i "s~%CERT_FILE%~$CERT_FILE~g" "$SLAPD_CONF"
   sed -i "s~%ROOT_USER%~$ROOT_USER~g" "$SLAPD_CONF"
   sed -i "s~%SUFFIX%~$SUFFIX~g" "$SLAPD_CONF"
+  sed -i "s~%USER_UID%~$USER_UID~g" "$SLAPD_CONF"
+  sed -i "s~%BIND_UID%~$BIND_UID~g" "$SLAPD_CONF"
 
-  # encrypt root password before replacing
+  # Generate root password
   if [ -z "$ROOT_PW" ]; then
     ROOT_PW=`pwgen -c -n -y -s 64 1`
-    touch /srv/conf/openldap/password
-    echo "[i] Save root password to /srv/conf/openldap/password"
-    echo "Root Password: $ROOT_PW" > /srv/conf/openldap/password
   fi
+
+  touch /srv/conf/openldap/password
+  echo "[i] Save root password to /srv/conf/openldap/password"
+  echo "Root DN: $ROOT_USER,$SUFFIX" >> /srv/conf/openldap/password
+  echo "Root Password: $ROOT_PW" >> /srv/conf/openldap/password
+
+  # encrypt root password before replacing
   ROOT_PW=$(slappasswd -s "$ROOT_PW")
   sed -i "s~%ROOT_PW%~$ROOT_PW~g" "$SLAPD_CONF"
 
@@ -79,15 +85,28 @@ if [ ! -f /srv/conf/openldap/inited ]; then
   sed -i "s~%USER_UID%~$USER_UID~g" "$USER_CONF"
   sed -i "s~%USER_GIVEN_NAME%~$USER_GIVEN_NAME~g" "$USER_CONF"
   sed -i "s~%USER_SURNAME%~$USER_SURNAME~g" "$USER_CONF"
+  sed -i "s~%USER_EMAIL%~$USER_EMAIL~g" "$USER_CONF"
+  sed -i "s~%BIND_UID%~$BIND_UID~g" "$USER_CONF"
+  sed -i "s~%BIND_GIVEN_NAME%~$BIND_GIVEN_NAME~g" "$USER_CONF"
+  sed -i "s~%BIND_SURNAME%~$BIND_SURNAME~g" "$USER_CONF"
+
   if [ -z "$USER_PW" ]; then
     USER_PW=`pwgen -c -n -y -s 32 1`
-    touch /srv/conf/openldap/password
-    echo "[i] Save user password to /srv/conf/openldap/password"
-    echo "User UID: $USER_UID" >> /srv/conf/openldap/password
-    echo "User Password: $USER_PW" >> /srv/conf/openldap/password
   fi
+  echo "[i] Save user password to /srv/conf/openldap/password"
+  echo "User DN: uid=%USER_UID%,ou=Manager,%SUFFIX%" >> /srv/conf/openldap/password
+  echo "User Password: $USER_PW" >> /srv/conf/openldap/password
+
   sed -i "s~%USER_PW%~$USER_PW~g" "$USER_CONF"
-  sed -i "s~%USER_EMAIL%~$USER_EMAIL~g" "$USER_CONF"
+
+  if [ -z "$BIND_PW" ]; then
+    BIND_PW=`pwgen -c -n -y -s 32 1`
+  fi
+  echo "[i] Save bind password to /srv/conf/openldap/password"
+  echo "BIND DN: uid=%BIND_UID%,ou=Manager,%SUFFIX%" >> /srv/conf/openldap/password
+  echo "BIND Password: $BIND_PW" >> /srv/conf/openldap/password
+
+  sed -i "s~%BIND_PW%~$BIND_PW~g" "$USER_CONF"
 
   # add organisation and users to ldap (order is important)
   slapadd -l "$ORG_CONF"

@@ -22,6 +22,11 @@ ENV USER_GIVEN_NAME "Manager"
 ENV USER_SURNAME "UAC"
 ENV USER_EMAIL "manager@example.com"
 
+# initial bind config
+ENV BIND_UID "bind"
+ENV BIND_GIVEN_NAME "Binder"
+ENV BIND_SURNAME "UAC"
+
 # transport layer security configuration
 ENV CA_FILE "/srv/cert/openldap/fullchain.pem"
 ENV CERT_KEY "/srv/cert/openldap/privkey.pem"

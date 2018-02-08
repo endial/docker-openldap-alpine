@@ -45,6 +45,10 @@ Override the following environment variables when running the docker container t
 | USER_SURNAME      | Initial user's surname          | UAC                                      |
 | USER_EMAIL        | Initial user's email            | manager@example.com                      |
 | USER_PW           | Initial user's password         | password                                 |
+| BIND_UID          | Initial bind's uid              | bind                                     |
+| BIND_GIVEN_NAME   | Initial bind's given name       | Binder                                   |
+| BIND_SURNAME      | Initial bind's surname          | UAC                                      |
+| BIND_PW           | Initial bind's password         | password                                 |
 
 准备数据卷容器（默认定义了`/srv/cert`）：
 ```
@@ -74,7 +78,6 @@ docker run --volumes-from dvc \
   -p 389:389 \
   -e ORGANISATION_NAME="Tidying Lab." \
   -e SUFFIX="dc=example,dc=com" \
-  -e ROOT_PW="geheimnis" \
   endial/openldap-alpine
 ```
 
