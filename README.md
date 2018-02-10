@@ -12,8 +12,10 @@
 
 ## 数据卷
 ```
+/srv/cert: 存放SSL证书文件
 /srv/conf: 用于存放用户的配置文件
 /srv/data: 用于存放LDAP数据文件
+/var/log: 用于输出日志
 ```
 
 

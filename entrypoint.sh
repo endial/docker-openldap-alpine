@@ -30,6 +30,10 @@ if [ ! -d /srv/conf/openldap ]; then
   mkdir -p /srv/conf/openldap
 fi
 
+if [ ! -d /var/log/openldap ]; then
+  mkdir -p /var/log/openldap
+fi
+
 if [ ! -d /var/run/openldap ]; then
   mkdir -p /var/run/openldap
 fi
