@@ -40,7 +40,7 @@ COPY scripts/* /etc/openldap/
 
 EXPOSE 389 636
 
-VOLUME ["/srv/cert", "/srv/conf", "/srv/data", "/var/log"]
+VOLUME ["/srv/cert", "/srv/conf", "/srv/data", "/var/log", "/var/run"]
 
 COPY entrypoint.sh /
 
