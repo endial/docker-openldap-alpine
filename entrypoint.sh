@@ -101,6 +101,7 @@ if [ ! -f /srv/conf/openldap/inited ]; then
   echo "User DN: uid=$USER_UID,ou=Manager,$SUFFIX" >> /srv/conf/openldap/password
   echo "User Password: $USER_PW" >> /srv/conf/openldap/password
 
+  USER_PW=$(slappasswd -s "$USER_PW")
   sed -i "s~%USER_PW%~$USER_PW~g" "$USER_CONF"
 
   if [ -z "$BIND_PW" ]; then
@@ -110,6 +111,7 @@ if [ ! -f /srv/conf/openldap/inited ]; then
   echo "BIND DN: uid=$BIND_UID,ou=Manager,$SUFFIX" >> /srv/conf/openldap/password
   echo "BIND Password: $BIND_PW" >> /srv/conf/openldap/password
 
+  BIND_PW=$(slappasswd -s "$BIND_PW")
   sed -i "s~%BIND_PW%~$BIND_PW~g" "$USER_CONF"
 
   # add organisation and users to ldap (order is important)
